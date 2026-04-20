@@ -12,9 +12,16 @@ import { CustomField, FieldType, ALL_FIELD_TYPES, FIELD_TYPE_META, SelectOption 
 // ─── Used-in popover ──────────────────────────────────────────────────────────
 
 const FIELD_USED_IN = [
-  { id: "p1", name: "Food tabs",           type: "Project", emoji: "🍜" },
-  { id: "p2", name: "Grid breakdown",      type: "Project", emoji: "🟣" },
-  { id: "p3", name: "TA Design Planning",  type: "Project", emoji: "📋" },
+  { id: "p1",  name: "Food tabs",              type: "Project" },
+  { id: "p2",  name: "Grid breakdown",         type: "Project" },
+  { id: "p3",  name: "TA Design Planning",     type: "Project" },
+  { id: "p4",  name: "Season 4 Tracker",       type: "Project" },
+  { id: "p5",  name: "Episode Reviews",        type: "Project" },
+  { id: "p6",  name: "Production Schedule",    type: "Project" },
+  { id: "p7",  name: "Writers Room",           type: "Project" },
+  { id: "p8",  name: "Post-Production Log",    type: "Project" },
+  { id: "p9",  name: "Casting Database",       type: "Project" },
+  { id: "p10", name: "Network Deliverables",   type: "Project" },
 ];
 
 function UsedInPopover() {
@@ -342,7 +349,7 @@ export function MiniFieldBuilder({
             >
               <Settings2 className="h-3.5 w-3.5 text-amber-500 shrink-0" />
               <p className="text-xs text-amber-800 flex-1">
-                Used in <span className="font-semibold">3 other places</span>. Changes apply everywhere.
+                Used in <span className="font-semibold">10 other places</span>. Changes apply everywhere.
               </p>
               <ChevronDown
                 className={`h-3 w-3 text-amber-400 shrink-0 transition-transform duration-150 ${usedInExpanded ? "rotate-180" : ""}`}
@@ -351,7 +358,7 @@ export function MiniFieldBuilder({
 
             {/* Expanded place list — appears below banner, connected to its bottom edge */}
             {usedInExpanded && (
-              <div className="border-l border-r border-b border-gray-200 rounded-b-lg overflow-hidden">
+              <div className="border-l border-r border-b border-gray-200 rounded-b-lg overflow-y-auto max-h-40">
                 {FIELD_USED_IN.map((place, i) => (
                   <button
                     key={place.id}
@@ -379,7 +386,7 @@ export function MiniFieldBuilder({
           <button
             onClick={() => {
               setOpen(false);
-              onOpenAdvanced(editingField?.id);
+              setTimeout(() => onOpenAdvanced(editingField?.id), 120);
             }}
             className="text-xs text-gray-500 hover:text-gray-700 transition-colors"
           >
