@@ -40,6 +40,7 @@ export default function FieldsIndex() {
   const { fields, addField, updateField, deleteField } = useCustomFields();
   const [search, setSearch] = useState("");
   const [selectedFieldId, setSelectedFieldId] = useState<string | null>(null);
+  const [showCreatePanel, setShowCreatePanel] = useState(false);
 
   const filteredFields = fields.filter((f) =>
     f.name.toLowerCase().includes(search.toLowerCase())
@@ -47,7 +48,13 @@ export default function FieldsIndex() {
   const selectedField = fields.find((f) => f.id === selectedFieldId) ?? null;
 
   const handleAddNew = () => {
-    const newField = addField("New Field", "text");
+    setSelectedFieldId(null);
+    setShowCreatePanel(true);
+  };
+
+  const handleCreate = (name: string, type: import("@/types/custom-fields").FieldType, extras?: Partial<import("@/types/custom-fields").CustomField>) => {
+    const newField = addField(name, type, extras);
+    setShowCreatePanel(false);
     setSelectedFieldId(newField.id);
   };
 
@@ -125,7 +132,13 @@ export default function FieldsIndex() {
               </table>
             </div>
 
-            {selectedField && (
+            {showCreatePanel && (
+              <FieldEditorPanel
+                onAdd={handleCreate}
+                onClose={() => setShowCreatePanel(false)}
+              />
+            )}
+            {!showCreatePanel && selectedField && (
               <FieldEditorPanel
                 field={selectedField}
                 onUpdate={updateField}

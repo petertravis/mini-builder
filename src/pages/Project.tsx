@@ -94,7 +94,7 @@ function CellValue({ fieldId, value, fields }: { fieldId: string; value?: string
   return <span className="text-xs text-foreground">{value}</span>;
 }
 
-type SidePanel = "none" | "columns" | "workflow" | "editor";
+type SidePanel = "none" | "columns" | "workflow" | "editor" | "create";
 
 export default function Project() {
   const navigate = useNavigate();
@@ -113,6 +113,8 @@ export default function Project() {
     if (fieldId) {
       setAdvancedEditId(fieldId);
       setSidePanel("editor");
+    } else {
+      setSidePanel("create");
     }
   };
 
@@ -217,6 +219,16 @@ export default function Project() {
             </table>
           </div>
         </div>
+
+        {sidePanel === "create" && (
+          <FieldEditorPanel
+            onAdd={(name, type, extras) => {
+              addField(name, type, extras);
+              setSidePanel("none");
+            }}
+            onClose={() => setSidePanel("none")}
+          />
+        )}
 
         {sidePanel === "editor" && advancedField && (
           <FieldEditorPanel

@@ -104,7 +104,7 @@ export default function Index() {
   const navigate = useNavigate();
   const { fields, addField, updateField, deleteField, toggleVisibility } = useCustomFields();
   const [advancedEditId, setAdvancedEditId] = useState<string | null>(null);
-  const [sidePanel, setSidePanel] = useState<"none" | "columns" | "editor">("none");
+  const [sidePanel, setSidePanel] = useState<"none" | "columns" | "editor" | "create">("none");
 
   const visibleFields = fields.filter((f) => f.visible);
   const advancedField = fields.find((f) => f.id === advancedEditId) ?? null;
@@ -113,6 +113,8 @@ export default function Index() {
     if (fieldId) {
       setAdvancedEditId(fieldId);
       setSidePanel("editor");
+    } else {
+      setSidePanel("create");
     }
   };
 
@@ -210,6 +212,16 @@ export default function Index() {
             </table>
           </div>
         </div>
+
+        {sidePanel === "create" && (
+          <FieldEditorPanel
+            onAdd={(name, type, extras) => {
+              addField(name, type, extras);
+              setSidePanel("none");
+            }}
+            onClose={() => setSidePanel("none")}
+          />
+        )}
 
         {sidePanel === "editor" && advancedField && (
           <FieldEditorPanel
